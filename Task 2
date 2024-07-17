@@ -1,0 +1,52 @@
+# Define room rates and amenities rates
+delux_rate = 2000
+suite_rate = 3000
+ac_rate = 500
+locker_rate = 200
+extra_person_rate = 1000
+
+# Capture customer info
+name = input("Enter customer name: ")
+check_in_date = input("Enter check-in date: ")
+total_days = int(input("Enter total days: "))
+total_persons = int(input("Enter total persons: "))
+advance_amount = float(input("Enter advance amount: "))
+
+# Capture room info
+room_type = input("Select room type (Delux/Suite): ")
+amenities = input("Select amenities (AC/Locker): ")
+
+# Calculate room cost and amenities cost
+if room_type.lower() == "delux":
+    room_cost = delux_rate * total_days
+elif room_type.lower() == "suite":
+    room_cost = suite_rate * total_days
+else:
+    print("Invalid room type")
+    exit()
+
+if "ac" in amenities.lower():
+    ac_cost = ac_rate * total_days
+else:
+    ac_cost = 0
+if "locker" in amenities.lower():
+    locker_cost = locker_rate * total_days
+else:
+    locker_cost = 0
+
+amenities_cost = ac_cost + locker_cost
+
+# Calculate total cost and balance
+total_cost = room_cost + amenities_cost + (extra_person_rate * (total_persons - 1) * total_days)
+balance = total_cost - advance_amount
+
+# Print summary
+print("Summary:")
+print("Customer Name:", name)
+print("Check-in Date:", check_in_date)
+print("Total Days:", total_days)
+print("Total Persons:", total_persons)
+print("Room Type:", room_type)
+print("Amenities:", amenities)
+print("Total Cost:", total_cost)
+print("Balance:", balance)

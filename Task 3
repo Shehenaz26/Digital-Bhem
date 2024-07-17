@@ -1,0 +1,55 @@
+from flask import Flask, render_template, request
+app = Flask(__name__)
+
+# Initialize timer and lap times
+timer = 0
+lap_times = []
+
+@app.route('/')
+def index():
+    return render_template('index.html', timer=timer, lap_times=lap_times)
+
+@app.route('/start', methods=['POST'])
+def start():
+    global timer
+    timer += 1
+    return render_template('index.html', timer=timer, lap_times=lap_times)
+
+@app.route('/lap', methods=['POST'])
+def lap():
+    global timer, lap_times
+    lap_times.append(timer)
+    return render_template('index.html', timer=timer, lap_times=lap_times)
+
+@app.route('/reset', methods=['POST'])
+def reset():
+    global timer, lap_times
+    timer = 0
+    lap_times = []
+    return render_template('index.html', timer=timer, lap_times=lap_times)
+
+if __name__ == '__main__':
+    app.run(debug=True)
+```
+
+And here is the HTML template (`index.html`):
+
+```
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stopwatch</title>
+</head>
+<body>
+    <h1>Stopwatch</h1>
+    <p>Timer: {{ timer }}</p>
+    <button onclick="location.href='/start'">Start</button>
+    <button onclick="location.href='/lap'">Lap</button>
+    <button onclick="location.href='/reset'">Reset</button>
+    <ul>
+        {% for lap in lap_times %}
+            <li>{{ lap }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
